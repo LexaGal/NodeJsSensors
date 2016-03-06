@@ -2,15 +2,52 @@ var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
 
-function accept(req, res) {
+var route = function(url) {
+    var data;
+    switch (url) {
+        case '/':
+            data = {
+                text: 'Plants areas are here',
+                code: 200
+            };
+            break;
+        case '/plantsareas':
+            data = {
+                text: 'Plants areas are here',
+                code: 200
+            };
+            break;
+        case '/sensors':
+            data = {
+                text: 'Sensors are here',
+                code: 200
+            };
+            break;
+        default:
+            data = {
+                text: 'No info',
+                code: 403
+            };
+            break;
+    }
+    return data;
+};
 
-    res.writeHead(200, {
+var createResponse = function(res ,data) {
+    res.writeHead(data.code, {
         'Content-Type': 'text/plain',
         'Cache-Control': 'no-cache'
     });
 
-    res.end("OK");
+    res.end(data.text);
+};
+
+function accept(req, res) {
+
+    createResponse(res, route(req.url));
 }
+
 var port = process.argv[2].split('=')[1];
+
 http.createServer(accept).listen(port);
 console.log('server is listening ' + port + ' port');
