@@ -1,4 +1,4 @@
-var dataAccess = require('./../dataAccess/access');
+var dataAccess = require('./../../server/dataAccess/access');
 var url = require('url');
 var querystring = require('querystring');
 

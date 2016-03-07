@@ -1,5 +1,5 @@
 var http = require('http');
-var route = require('./routing/router');
+var route = require('./../lib/routing/router');
 
 var createResponse = function(res ,data) {
     res.writeHead(data.code, {
@@ -11,6 +11,8 @@ var createResponse = function(res ,data) {
 };
 
 function accept(req, res) {
+
+    res.w
     createResponse(res, route.route(req.url));
 }
 
