@@ -7,26 +7,29 @@ var getPlantsareas = function(id) {
         //debugger;
         for (var key in plantsareas) {
             if (plantsareas[key]._id == id) {
-                console.log(plantsareas[key]);
+                return plantsareas[key];
             }
         }
     }
     else {
-        console.log(plantsareas);
+        return plantsareas;
     }
 };
 
 
-var getSensors = function(id) {
-  if (id) {
+var getSensors = function(plantsareaId) {
+  if (plantsareaId) {
+      var list = [];
       for (var key in sensors) {
-          if (sensors[key]._id == id) {
-              console.log(sensors[key]);
+          if (sensors[key].plantsareaId == plantsareaId) {
+              //debugger;
+              list.push(sensors[key]);
           }
       }
+      return list;
   }
   else {
-      console.log(sensors);
+      return sensors;
   }
 };
 

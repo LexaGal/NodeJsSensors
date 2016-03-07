@@ -1,36 +1,48 @@
 var dataAccess = require('./../dataAccess/access');
+var url = require('url');
+var querystring = require('querystring');
 
-var route = function(url) {
+var route = function(urlString) {
     var data;
 
-    function getItems(type) {
+    //debugger;
+
+    var urlObj = url.parse(urlString);
+
+    function getItems(type, id) {
         switch (type) {
             case 'plantsareas':
-                return dataAccess.plantsareas("7d82030f-ecb8-4f48-b668-54a31e8425dd");
+                if (id) {
+                    return dataAccess.plantsareas(id);
+                }
+                return dataAccess.plantsareas();
             case 'sensors':
+                if (id) {
+                    return dataAccess.sensors(id); //for  plantsareaId
+                }
                 return dataAccess.sensors();
         }
     }
 
-    switch (url) {
+    switch (urlObj.pathname) {
         case '/':
             data = {
                 text: 'Plants areas are here:',
-                items: getItems('plantsareas'),
+                items: getItems('plantsareas', urlObj.query),
                 code: 200
             };
             break;
         case '/plantsareas':
             data = {
                 text: 'Plants areas are here',
-                items: getItems('plantsareas'),
+                items: getItems('plantsareas', urlObj.query),
                 code: 200
             };
             break;
         case '/sensors':
             data = {
                 text: 'Sensors are here',
-                items: getItems('sensors'),
+                items: getItems('sensors', urlObj.query),
                 code: 200
             };
             break;

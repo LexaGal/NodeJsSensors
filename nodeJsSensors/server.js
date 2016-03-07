@@ -1,6 +1,4 @@
 var http = require('http');
-var url = require('url');
-var querystring = require('querystring');
 var route = require('./routing/router');
 
 var createResponse = function(res ,data) {
@@ -9,7 +7,7 @@ var createResponse = function(res ,data) {
         'Cache-Control': 'no-cache'
     });
 
-    res.end(data.text);
+    res.end(data.text + '\n' + JSON.stringify(data.items));
 };
 
 function accept(req, res) {
