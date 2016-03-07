@@ -1,37 +1,7 @@
 var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
-
-var route = function(url) {
-    var data;
-    switch (url) {
-        case '/':
-            data = {
-                text: 'Plants areas are here',
-                code: 200
-            };
-            break;
-        case '/plantsareas':
-            data = {
-                text: 'Plants areas are here',
-                code: 200
-            };
-            break;
-        case '/sensors':
-            data = {
-                text: 'Sensors are here',
-                code: 200
-            };
-            break;
-        default:
-            data = {
-                text: 'No info',
-                code: 403
-            };
-            break;
-    }
-    return data;
-};
+var route = require('./routing/router');
 
 var createResponse = function(res ,data) {
     res.writeHead(data.code, {
@@ -43,8 +13,7 @@ var createResponse = function(res ,data) {
 };
 
 function accept(req, res) {
-
-    createResponse(res, route(req.url));
+    createResponse(res, route.route(req.url));
 }
 
 var port = process.argv[2].split('=')[1];

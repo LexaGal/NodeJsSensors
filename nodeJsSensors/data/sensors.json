@@ -1,0 +1,59 @@
+{
+  "S1": {
+    "_id": "1",
+    "plantsareaId": "097aa130-aceb-4a85-8351-0789700ec658",
+    "name": "Temperature",
+    "timespan": "00:00:01",
+    "isOn": "true"
+  },
+
+  "S2": {
+    "_id": "2",
+    "plantsareaId": "8b1d8ae2-ed40-4598-81b8-2f92342f5b0c",
+    "name": "Temperature",
+    "timespan": "00:00:01",
+    "isOn": "true"
+  },
+  "S3": {
+    "_id": "3",
+    "plantsareaId": "8b1d8ae2-ed40-4598-81b8-2f92342f5b0c",
+    "name": "Humidity",
+    "timespan": "00:00:01",
+    "isOn": "true"
+  },
+  "S4": {
+    "_id": "4",
+    "plantsareaId": "7d82030f-ecb8-4f48-b668-54a31e8425dd",
+    "name": "Temperature",
+    "timespan": "00:00:04",
+    "isOn": "false"
+  },
+  "S5": {
+    "_id": "5",
+    "plantsareaId": "9b45cc43-cb22-4ab1-b3a0-6cb50c349d0f",
+    "name": "Temperature",
+    "timespan": "00:00:01",
+    "isOn": "true"
+  },
+  "S6": {
+    "_id": "6",
+    "plantsareaId": "9b45cc43-cb22-4ab1-b3a0-6cb50c349d0f",
+    "name": "Humidity",
+    "timespan": "00:00:02",
+    "isOn": "false"
+  },
+  "S7": {
+    "_id": "7",
+    "plantsareaId": "9b45cc43-cb22-4ab1-b3a0-6cb50c349d0f",
+    "name": "Nutrient",
+    "timespan": "00:00:01",
+    "isOn": "true"
+  },
+  "S8": {
+    "_id": "8",
+    "plantsareaId": "fc1b5499-caf9-41db-a65a-72e0f8b604b1",
+    "name": "Temperature",
+    "timespan": "00:00:03",
+    "isOn": "true"
+  }
+}

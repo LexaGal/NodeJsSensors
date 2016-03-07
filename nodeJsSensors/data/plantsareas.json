@@ -1,0 +1,27 @@
+{
+  "PA1": {
+    "_id": "097aa130-aceb-4a85-8351-0789700ec658",
+    "name": "Potato area",
+    "numberOfSensors": 1
+  },
+  "PA2": {
+    "_id": "8b1d8ae2-ed40-4598-81b8-2f92342f5b0c",
+    "name": "Tomato area",
+    "numberOfSensors": 2
+  },
+  "PA3": {
+    "_id": "7d82030f-ecb8-4f48-b668-54a31e8425dd",
+    "name": "Potato area",
+    "numberOfSensors": 1
+  },
+  "PA4": {
+    "_id": "9b45cc43-cb22-4ab1-b3a0-6cb50c349d0f",
+    "name": "Carrot area",
+    "numberOfSensors": 3
+  },
+  "PA5": {
+    "_id": "fc1b5499-caf9-41db-a65a-72e0f8b604b1",
+    "name": "Nuts area",
+    "numberOfSensors": 1
+  }
+}
