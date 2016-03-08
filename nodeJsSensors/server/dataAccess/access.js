@@ -4,10 +4,12 @@ var sensors = require('./../data/sensors.json');
 var getPlantsareas = function(id) {
 
     if (id) {
+        var list = [];
         //debugger;
         for (var key in plantsareas) {
             if (plantsareas[key]._id == id) {
-                return plantsareas[key];
+                list.push(plantsareas[key]);
+                return list;
             }
         }
     }

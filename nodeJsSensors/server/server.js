@@ -10,7 +10,7 @@ var prepareHtmlAndSend = function (res, data, html) {
     var sourceHtml = $('#entry-template').html();
     $('#handlebars-entry').append(sourceHtml);
 
-    res.writeHead(data.code, {'Content-Type': data.type});
+    res.writeHead(data.code, {'Content-Type': data.type, 'Cache-Control': 'no-cache' });
 
     //var s = $.html();
     //var buf = new ArrayBuffer(s.length);
@@ -21,7 +21,7 @@ var prepareHtmlAndSend = function (res, data, html) {
     //debugger;
     res.write($.html());
     res.end(function() {
-        console.log("Yeah");
+        console.log("Response finished");
     })
 };
 
@@ -43,7 +43,7 @@ var createResponse = function (res, data) {
                         res.writeHead(500, "Error during reading file: client/plantsareas/plantsareas.html");
                         res.end();
                     }
-                    debugger;
+                    //debugger;
                     //res.write(html);
                     html = context.processHtml(html);
                     prepareHtmlAndSend(res, data, html);

@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="file://D:\style.css"/>
     <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8" >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
-    <script src="plantsareas.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="https://www.dropbox.com/s/5abieihjyrzl73v/style.css?dl=0">-->
+    <!--<style type="text/css">-->
+        <!--.plantsarea {-->
+            <!--color: red;-->
+        <!--}-->
+    <!--</style>-->
 </head>
-
 <body>
 <script id="entry-template" type="text/x-handlebars-template">
     <div class="entry">
         <h1>Plantsareas</h1>
     </div>
     <div class="plantsareas">
-        <ol>
+        <!--<ol>-->
             {{#each this}}
-            <li>
+            <div class="plantsarea">
                 Name: {{this.name}}
+                <br/>
                 Sensors: {{this.numberOfSensors}}
-            </li>
+            </div>
             {{/each}}
-        </ol>
+        <!--</ol>-->
     </div>
 </script>
 

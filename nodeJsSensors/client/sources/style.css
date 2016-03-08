@@ -1,0 +1,9 @@
+.plantsareas {
+    display: table;
+}
+
+.plantsarea {
+    border-spacing: 10px;
+    border: 2px solid green;
+    display: table-cell;
+}
