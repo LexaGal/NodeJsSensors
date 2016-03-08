@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+    <script src="plantsareas.js"></script>
+</head>
+
+<body>
+<script id="entry-template" type="text/x-handlebars-template">
+    <div class="entry">
+        <h1>{{title}}</h1>
+        <div class="body">
+            {{body}}
+        </div>
+    </div>
+    <div class="plantsareas">
+        <ul>
+            {{#each plantsareas}}
+            <li>
+                Name: {{this.name}}
+                Sensors: {{this.numberOfSensors}}
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+
+<div id="handlebars-entry"></div>
+
+</body>

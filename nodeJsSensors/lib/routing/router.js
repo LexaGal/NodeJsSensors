@@ -27,21 +27,21 @@ var route = function(urlString) {
     switch (urlObj.pathname) {
         case '/':
             data = {
-                text: 'Plants areas are here:',
+                text: 'Plants areas:',
                 items: getItems('plantsareas', urlObj.query),
                 code: 200
             };
             break;
         case '/plantsareas':
             data = {
-                text: 'Plants areas are here',
+                text: 'Plants areas:',
                 items: getItems('plantsareas', urlObj.query),
                 code: 200
             };
             break;
         case '/sensors':
             data = {
-                text: 'Sensors are here',
+                text: 'Sensors:',
                 items: getItems('sensors', urlObj.query),
                 code: 200
             };
