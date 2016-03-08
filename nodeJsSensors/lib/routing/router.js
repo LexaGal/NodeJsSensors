@@ -1,6 +1,5 @@
 var dataAccess = require('./../../server/dataAccess/access');
 var url = require('url');
-var querystring = require('querystring');
 
 var route = function(urlString) {
     var data;
@@ -29,21 +28,27 @@ var route = function(urlString) {
             data = {
                 text: 'Plants areas:',
                 items: getItems('plantsareas', urlObj.query),
-                code: 200
+                code: 200,
+                pathname: 'plantsareas',
+                type: 'text/html'
             };
             break;
         case '/plantsareas':
             data = {
                 text: 'Plants areas:',
                 items: getItems('plantsareas', urlObj.query),
-                code: 200
+                code: 200,
+                pathname: 'plantsareas',
+                type: 'text/html'
             };
             break;
         case '/sensors':
             data = {
                 text: 'Sensors:',
                 items: getItems('sensors', urlObj.query),
-                code: 200
+                code: 200,
+                pathname: 'sensors',
+                type: 'text/html'
             };
             break;
         default:

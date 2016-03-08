@@ -16,11 +16,11 @@ var processHtml = function(sourceHtml){
 };
 
 /*
-$(document).ready(function () {
-     var sourceHtml = $("#entry-template").html();
-    $('#handlebars-entry').append(processHtml(sourceHtml, Context));
-});
-*/
+ $(document).ready(function () {
+ var sourceHtml = $("#entry-template").html();
+ $('#handlebars-entry').append(processHtml(sourceHtml, Context));
+ });
+ */
 
 module.exports.setContext = setContext;
 module.exports.processHtml = processHtml;

@@ -40,7 +40,7 @@
     "plantsareaId": "9b45cc43-cb22-4ab1-b3a0-6cb50c349d0f",
     "name": "Humidity",
     "timespan": "00:00:02",
-    "isOn": "false"
+    "timespan": "false"
   },
   "S7": {
     "_id": "7",
