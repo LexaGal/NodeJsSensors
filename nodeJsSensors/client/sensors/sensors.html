@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8" >
+    <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/public/style.css">
 </head>
 
 <body>
@@ -12,17 +13,15 @@
         <h1>Sensors</h1>
     </div>
     <div class="sensors">
-        <ol>
-            {{#each this}}
-            <li>
-                Name: {{this.name}}
-                <br/>
-                Timespan: {{this.numberOfSensors}}
-                <br/>
-                Is on: {{this.isOn}}
-            </li>
-            {{/each}}
-        </ol>
+        {{#each this}}
+        <div class="sensor">
+            Name: {{this.name}}
+            <br/>
+            Timespan: {{this.timespan}}
+            <br/>
+            Is on: {{this.isOn}}
+        </div>
+        {{/each}}
     </div>
 </script>
 

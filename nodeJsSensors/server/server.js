@@ -3,6 +3,7 @@ var http = require('http');
 var route = require('./../lib/routing/router');
 var cheerio = require('cheerio');
 
+var dir = "C:/Users/Alex/WebstormProjects/nodeJsSensors";
 
 var prepareHtmlAndSend = function (res, data, html) {
     $ = cheerio.load(html);
@@ -19,6 +20,7 @@ var prepareHtmlAndSend = function (res, data, html) {
     //    uint8array[i] = s.charCodeAt(i);
     //}
     //debugger;
+
     res.write($.html());
     res.end(function() {
         console.log("Response finished");
@@ -32,6 +34,7 @@ var createResponse = function (res, data) {
 
     if (data.code == 200) {
         //debugger;
+
         switch (data.pathname) {
             case 'plantsareas':
 
@@ -78,6 +81,28 @@ function accept(req, res) {
     res.on('close', function(){
         console.log("Close received!");
     });
+
+    debugger;
+
+    if (req.url === '/favicon.ico') {
+        fs.readFile(dir + '/favicon.png', function (err, data) {
+            if (err) console.log(err);
+            res.writeHead(200, {'Content-Type': 'image/x-icon'});
+            res.end(data);
+            console.log('favicon requested');
+        });
+        return;
+    }
+
+    if (req.url.indexOf(".css") != -1) {
+
+        fs.readFile(dir + req.url, function (err, data) {
+            if (err) console.log(err);
+            res.writeHead(200, {'Content-Type': 'text/css'});
+            res.write(data);
+            res.end();
+        });
+    }
 
     var routeData = route.route(req.url);
 
