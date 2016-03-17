@@ -50,7 +50,7 @@ var insertDocuments = function (number, collection, docs, callback) {
     });
 };
 
-var getDocuments  = function (collection, selectors, callback) {
+var getDocuments = function (collection, selectors, callback) {
 
     db.open(function (err, db) {
 
@@ -72,44 +72,41 @@ var getDocuments  = function (collection, selectors, callback) {
     });
 };
 
-var getPlantsareas = function(id, callback) {
+var getPlantsareas = function (id, callback) {
 
     getDocuments('plantsareas', {}, function (err, items) {
 
         if (id) {
             var list = [];
-            for (var key in plantsareas) {
+            for (var key in items) {
                 if (items[key]._id == id) {
                     list.push(items[key]);
-                    return list;
+                    callback(list);
                 }
             }
         } else {
-            //insertDocuments('plantsareas', list);
-            return items;
+            callback(items);
         }
     });
 };
 
 
-var getSensors = function(plantsareaId) {
+var getSensors = function (plantsareaId, callback) {
 
-    var sensors = getDocuments('sensors', {});
+    var sensors = getDocuments('sensors', {}, function (err, items) {
 
-    if (plantsareaId) {
-      var list = [];
-      for (var key in sensors) {
-          if (sensors[key].plantsareaId == plantsareaId) {
-              list.push(sensors[key]);
-          }
-      }
-      //insertDocuments('sensors', list);
-      return list;
-  }
-  else {
-      return sensors;
-  }
-};
-
+        if (plantsareaId) {
+            var list = [];
+            for (var key in items) {
+                if (items[key].plantsareaId == plantsareaId) {
+                    list.push(items[key]);
+                }
+            }
+            callback(list);
+        } else {
+            callback(items);
+        }
+    });
+}
 module.exports.plantsareas = getPlantsareas;
 module.exports.sensors = getSensors;
