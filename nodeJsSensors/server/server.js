@@ -1,9 +1,19 @@
+'use strict';
+
 var fs = require('fs');
 var http = require('http');
 var route = require('./../lib/routing/router');
 var cheerio = require('cheerio');
 var assert = require('assert');
-var response = {};
+//var response = {};
+
+const Hapi = require('hapi');
+const server = new Hapi.Server();
+var port = process.argv[2].split('=')[1];
+server.connection({
+    port: port || 3000,
+    host: 'localhost'
+});
 
 //
 //MongoClient = require('mongodb').MongoClient;
@@ -16,8 +26,21 @@ var response = {};
 
 var dir = "C:/Users/Alex/WebstormProjects/nodeJsSensors";
 
+server.register(require('vision'), (err) => {
+
+    server.views({
+        engines: {
+            html: require('handlebars')
+        },
+        relativeTo: __dirname,
+        path: './../client/templates/',
+        layoutPath: './../client/layout',
+        helpersPath: './../client/helpers'
+    });
+});
+
 var prepareHtmlAndSend = function (data, html) {
-    $ = cheerio.load(html);
+    var $ = cheerio.load(html);
     var sourceHtml = $('#entry-template').html();
     $('#handlebars-entry').append(sourceHtml);
 
@@ -44,12 +67,11 @@ var createResponse = function (data) {
         switch (data.pathname) {
 
             case 'plantsareas':
-                context = require('./../client/plantsareas/plantsareas');
+                context = require('./../client/helpers/plantsareas');
                 context.setContext(data.items);
                 fs.readFile('client/plantsareas/plantsareas.html', function (err, html) {
                     if (err) {
-                        response.writeHead(500, "Error during reading file: client/plantsareas/plantsareas.html");
-                        response.end();
+                        console.log(500, "Error during reading file: client/plantsareas/plantsareas.html");
                     }
                     html = context.processHtml(html);
                     prepareHtmlAndSend(data, html);
@@ -57,13 +79,12 @@ var createResponse = function (data) {
                 break;
 
             case 'sensors':
-                context = require('./../client/sensors/sensors');
+                context = require('./../client/helpers/sensors');
                 context.setContext(data.items);
 
                 fs.readFile('client/sensors/sensors.html', function (err, html) {
                     if (err) {
-                        response.writeHead(500, "Error during reading file: client/sensors/sensors.html");
-                        response.end();
+                        console.log(500, "Error during reading file: client/sensors/sensors.html");
                     }
                     html = context.processHtml(html);
                     prepareHtmlAndSend(data, html);
@@ -102,13 +123,81 @@ function accept(req, res) {
         });
     }
 
-    response = res;
+    //response = res;
 
     route.route(req.url, createResponse);
 }
 
-var port = process.argv[2].split('=')[1];
+//server.route({
+//    method: "GET",
+//    path: "public/{path*}",
+//    handler: {
+//        directory: {
+//            path: "./../public",
+//            listing: false,
+//            index: false
+//        }
+//    }
+//});
 
-http.createServer(accept).listen(port);
-console.log('server is listening ' + port + ' port');
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        route.route('/', null, function (plantsareas) {
+            reply.view("plantsareas", { plantsareas: plantsareas.items });
+        });
+    }
+});
 
+server.route({
+    method: 'GET',
+    path: '/sensors',
+    handler: function (request, reply) {
+        route.route('/sensors', null, function (sensors) {
+            reply.view("sensors", { sensors: sensors.items });
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/sensors/{plantsareaId}',
+    handler: function (request, reply) {
+        route.route('/sensors', encodeURIComponent(request.params.plantsareaId), function (sensors) {
+            reply.view("sensors", { sensors: sensors.items });
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/plantsareas',
+    handler: function (request, reply) {
+        route.route('/plantsareas', null, function (plantsareas) {
+            reply.view("plantsareas", { plantsareas: plantsareas.items });
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/plantsareas/{id}',
+    handler: function (request, reply) {
+        route.route('/plantsareas', encodeURIComponent(request.params.id), function (plantsareas) {
+            reply.view("plantsareas", { plantsareas: plantsareas.items });
+        });
+    }
+});
+
+//http.createServer(accept).listen(port);
+//console.log('server is listening ' + port + ' port');
+
+server.start((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Server is running at: ', server.info.uri);
+});
+
+//module.exports.server = server;

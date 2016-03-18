@@ -1,82 +1,46 @@
 var dataAccess = require('./../../server/dataAccess/access');
 var url = require('url');
+//var server = require('./../../server/server');
 var data = {};
 
-var route = function(urlString, resCallback) {
+var route = function(pathname, id, resCallback) {
 
     var callback = function(dataItems) {
-
         data.items = dataItems;
-
-        //var urlObj = url.parse(urlString);
-        //switch (urlObj.pathname) {
-        //    case '/':
-        //        data = {
-        //            text: 'Plants areas:',
-        //            items: dataItems, //getItems('plantsareas', urlObj.query),
-        //            code: 200,
-        //            pathname: 'plantsareas',
-        //            type: 'text/html'
-        //        };
-        //        break;
-        //    case '/plantsareas':
-        //        data = {
-        //            text: 'Plants areas:',
-        //            items: dataItems, //getItems('plantsareas', urlObj.query),
-        //            code: 200,
-        //            pathname: 'plantsareas',
-        //            type: 'text/html'
-        //        };
-        //        break;
-        //    case '/sensors':
-        //        data = {
-        //            text: 'Sensors:',
-        //            items: dataItems, //getItems('sensors', urlObj.query),
-        //            code: 200,
-        //            pathname: 'sensors',
-        //            type: 'text/html'
-        //        };
-        //        break;
-        //    default:
-        //        data = {
-        //            text: 'No info',
-        //            code: 403
-        //        };
-        //        break;
-        //}
         if (resCallback) {
             resCallback(data);
         }
     };
 
-    var urlObj = url.parse(urlString);
-    switch (urlObj.pathname) {
+    //var urlObj = url.parse(urlString);
+
+    switch (pathname) {
         case '/':
             data = {
-                text: 'Plants areas:',
+                text: 'Plants areas',
                 code: 200,
                 pathname: 'plantsareas',
                 type: 'text/html'
             };
-            getItems('plantsareas', urlObj.query);
+            getItems('plantsareas', id);
             break;
         case '/plantsareas':
             data = {
-                text: 'Plants areas:',
+                text: 'Plants areas',
                 code: 200,
                 pathname: 'plantsareas',
                 type: 'text/html'
             };
-            getItems('plantsareas', urlObj.query);
+            getItems('plantsareas', id);
             break;
         case '/sensors':
             data = {
-                text: 'Sensors:',
+                text: 'Sensors',
                 code: 200,
                 pathname: 'sensors',
                 type: 'text/html'
             };
-            getItems('sensors', urlObj.query);
+            getItems('sensors', id);
             break;
         default:
             data = {

@@ -8,12 +8,12 @@
 </head>
 
 <body>
-<script id="entry-template" type="text/x-handlebars-template">
+<!--<script id="entry-template" type="text/x-handlebars-template">-->
     <div class="entry">
         <h1>Sensors</h1>
     </div>
     <div class="sensors">
-        {{#each this}}
+        {{#each sensors}}
         <div class="sensor">
             Name: {{this.name}}
             <br/>
@@ -23,7 +23,6 @@
         </div>
         {{/each}}
     </div>
-</script>
 
 <div id="handlebars-entry"></div>
 

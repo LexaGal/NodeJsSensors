@@ -1,5 +1,6 @@
 var handlebars = require('handlebars');
 
+
 var Context;
 //    title: "My plantsareas",
 //    body: "Here is information about plantsareas"
@@ -22,5 +23,9 @@ $(document).ready(function () {
 });
 */
 
-module.exports.setContext = setContext;
-module.exports.processHtml = processHtml;
+//module.exports.setContext = setContext;
+//module.exports.processHtml = processHtml;
+//module.exports = function() {
+//    //return 'kkkk';
+//    //return [{name: 'a'}, {name: 'b'}];
+//};
