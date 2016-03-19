@@ -1,31 +1,26 @@
-var handlebars = require('handlebars');
+$('#newPlantsareaItemForm').submit(function (event) {
+    event.preventDefault();
 
+    var name = $(event.target).find('[name=name_plantsareaItem]').val();
 
-var Context;
-//    title: "My plantsareas",
-//    body: "Here is information about plantsareas"
-//};
+    var doc = {
+        name: name,
+        numberOfSensors: 0
+    };
 
-var setContext = function(context){
-    Context = context;
-};
-
-var processHtml = function(sourceHtml){
-    //debugger;
-    var template = handlebars.compile(sourceHtml.toString());
-    return template(Context).toString();
-};
-
-/*
-$(document).ready(function () {
-     var sourceHtml = $("#entry-template").html();
-    $('#handlebars-entry').append(processHtml(sourceHtml, Context));
+    $.ajax({
+        url: "/plantsareas/new/",
+        type: "post",
+        data: { name: doc.name },
+        success: function(lastItem) {
+            var $newdiv = $( "<div id='" + lastItem._id + "' class='plantsarea'>" +
+                "Name: " + lastItem.name +
+                " - Sensors: " + lastItem.numberOfSensors +
+                "</div>");
+            $('#plantsareas').append($newdiv);
+        },
+        error: function(err) {
+            alert(err.message);
+        }
+    });
 });
-*/
-
-//module.exports.setContext = setContext;
-//module.exports.processHtml = processHtml;
-//module.exports = function() {
-//    //return 'kkkk';
-//    //return [{name: 'a'}, {name: 'b'}];
-//};

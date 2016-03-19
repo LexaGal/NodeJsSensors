@@ -1,26 +1,46 @@
-var handlebars = require('handlebars');
+$('#newSensorForm').submit(function (event) {
+    event.preventDefault();
 
-var Context;
-//    title: "My plantsareas",
-//    body: "Here is information about plantsareas"
-//};
+    var measurableType = $(event.target).find('[name=measurableType]');
+    var measuringTimeout = $(event.target).find('[name=measuringTimeout]');
+    var isOn = $(event.target).find('[name=isOn]');
 
-var setContext = function(context){
-    Context = context;
-};
+    var sensor = {
+        measurableType: measurableType.val().toLowerCase(),
+        timespan: measuringTimeout.val(),
+        isOn: $('#isOn:checked').val(),
+        plantsareaId: this._id,
+        dateTime: new Date()
+    };
 
-var processHtml = function(sourceHtml){
-    //debugger;
-    var template = handlebars.compile(sourceHtml.toString());
-    return template(Context).toString();
-};
+    sensor.isOn = (sensor.isOn == "on").toString();
 
-/*
- $(document).ready(function () {
- var sourceHtml = $("#entry-template").html();
- $('#handlebars-entry').append(processHtml(sourceHtml, Context));
- });
- */
+    $.ajax({
+        url: "/sensors/new/",
+        type: "post",
+        data: {sensor: JSON.stringify(sensor)},
+        success: function (lastItem) {
+            var $newdiv = $("<div id='" + lastItem._id + "' class='sensor'>" +
+                "Name: " + lastItem.measurableType +
+                " - Timespan: " + lastItem.timespan +
+                " - Is on: " + lastItem.isOn +
+                "</div>");
+            $('#sensors').append($newdiv);
+        },
+        error: function (err) {
+            alert(err.message);
+        }
+    });
+});
 
-module.exports.setContext = setContext;
-module.exports.processHtml = processHtml;
+$('.addButton').on('click', function (e) {
+    e.preventDefault();
+    $('#newSensorForm').attr("visibility", "visible");
+    $('#addButton').attr("visibility", "collapse");
+});
+
+$('.closeButton').on('click', function (e) {
+    e.preventDefault();
+    $('#sensorSubmit').attr("visibility", "collapse");
+    $('#addButton').attr("visibility", "visible");
+});

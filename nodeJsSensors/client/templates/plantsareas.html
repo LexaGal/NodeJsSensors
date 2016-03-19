@@ -4,28 +4,40 @@
     <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
-
+    <!--<script src="access.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!--path relative to public dirertory-->
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <!--<link rel="stylesheet" type="text/css" href="https://www.dropbox.com/s/5abieihjyrzl73v/style.css?dl=0">-->
-    </head>
+</head>
 <body>
 <!--<script id="entry-template" type="text/x-handlebars-template">-->
-    <div class="entry">
-        <h1>Plantsareas</h1>
+<div class="entry title">
+    <h1>Plantsareas</h1>
+</div>
+<div id="plantsareas" class="plantsareas">
+    {{#each plantsareas}}
+    <div id="{{this._id}}" class="plantsarea">
+        Name: {{this.name}} - Sensors: {{this.numberOfSensors}}
     </div>
-    <div class="plantsareas">
-        <!--{{plantsareas}}-->
-        {{#each plantsareas}}
-        <div class="plantsarea">
-            Name: {{this.name}}
-            <br/>
-            Sensors: {{this.numberOfSensors}}
-        </div>
-        {{/each}}
-    </div>
+    {{/each}}
+</div>
 
-<div id="handlebars-entry"></div>
+<form id="newPlantsareaItemForm" class="form-controls-font">
+    <div class="form-group">
+        <div class="controls">
+            <label class="control-label">
+                <input name="name_plantsareaItem" type="text" class="form-control required"
+                       placeholder="Plantsarea name"/>
+            </label>
+            <div>
+                <button id="submitNewPlantsareaItem" type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="plantsareas.js"></script>
 
 </body>

@@ -6,70 +6,59 @@ var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
 var db = new Db('plantsareas', new Server('localhost', 27017));
 //var url = 'mongodb://localhost:27017/plantsareas';
+var mongodb = {};
+
+db.open(function (err, db) {
+    assert.equal(null, err);
+    assert.ok(db != null);
+    mongodb = db;
+});
+
 
 var insertDocuments = function (number, collection, docs, callback) {
-
-    db.open(function (err, db) {
-
-        assert.equal(null, err);
-        assert.ok(db != null);
-
-        collection = db.collection(collection);
-
-        if (!number.isNaN()) {
-            if (number > 1) {
-                collection.insertMany(
-                    docs,
-                    function (err, res) {
-                        assert.equal(null, err);
-                        if (db.serverConfig.isConnected()) {
-                            db.close();
-                        }
-                        if (callback) {
-                            if (err) callback(err);
-                            else callback(null, res);
-                        }
+    if (mongodb.serverConfig.isConnected()) {
+        collection = mongodb.collection(collection);
+        if (number > 1) {
+            collection.insertMany(
+                docs,
+                function (err, res) {
+                    assert.equal(null, err);
+                    if (callback) {
+                        if (err) callback(err);
+                        else callback(null, res);
                     }
-                );
-            } else if (number = 1) {
-                collection.insertOne(
-                    docs,
-                    function (err, res) {
-                        assert.equal(null, err);
-                        if (db.serverConfig.isConnected()) {
-                            db.close();
-                        }
-                        if (callback) {
-                            if (err) callback(err);
-                            else callback(null, res);
-                        }
+                }
+            );
+        } else if (number == 1) {
+            collection.insertOne(
+                docs,
+                function (err, res) {
+                    assert.equal(null, err);
+                    if (callback) {
+                        if (err) callback(err);
+                        else callback(null, res);
                     }
-                );
-            }
+                }
+            );
         }
-    });
+    }
 };
 
 var getDocuments = function (collection, selectors, callback) {
 
-    db.open(function (err, db) {
-
-        assert.equal(null, err);
-        assert.ok(db != null);
-
-        collection = db.collection(collection);
-
+    if (mongodb.serverConfig.isConnected()) {
+        collection = mongodb.collection(collection);
         collection.find(selectors).toArray(function (err, items) {
             assert.equal(null, err);
-            if (db.serverConfig.isConnected()) {
-                db.close();
-            }
+            //if (mongodb.serverConfig.isConnected()) {
+            //mongodb.close();
+            //}
             if (callback) {
                 if (err) callback(err);
                 else callback(null, items);
             }
         });
-    });
+    }
 };
 
 var getPlantsareas = function (id, callback) {
@@ -107,6 +96,7 @@ var getSensors = function (plantsareaId, callback) {
             callback(items);
         }
     });
-}
-module.exports.plantsareas = getPlantsareas;
-module.exports.sensors = getSensors;
+};
+module.exports.getPlantsareas = getPlantsareas;
+module.exports.getSensors = getSensors;
+module.exports.insertDocuments = insertDocuments;

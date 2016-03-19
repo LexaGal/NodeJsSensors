@@ -4,26 +4,54 @@
     <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
 <!--<script id="entry-template" type="text/x-handlebars-template">-->
-    <div class="entry">
-        <h1>Sensors</h1>
+<div class="entry title">
+    <h1>Sensors</h1>
+</div>
+<div id="sensors" class="sensors">
+    {{#each sensors}}
+    <div class="sensor">
+        Name: {{this.name}} - Timespan: {{this.timespan}} - Is on: {{this.isOn}}
     </div>
-    <div class="sensors">
-        {{#each sensors}}
-        <div class="sensor">
-            Name: {{this.name}}
-            <br/>
-            Timespan: {{this.timespan}}
-            <br/>
-            Is on: {{this.isOn}}
-        </div>
-        {{/each}}
-    </div>
+    {{/each}}
+</div>
 
-<div id="handlebars-entry"></div>
+<button id="addButton" class="addButton btn btn-primary">Add sensor</button>
+<form id="newSensorForm" style="visibility: visible" class="sensors body bordered form-controls-font">
+    <div class="form-group">
+        <div class="controls">
+            <label title="Temperature, humidity, sun/wind level">Measurable type
+                <input name="measurableType" value="Type A" type="text" class="form-control required"/>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls">
+            <label title="Hours:Minutes:Seconds">Measuring timeout
+                <input name="measuringTimeout" value="00:00:05" type="time" step="1" class="form-control required"/>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls">
+            <label>Is turned on
+            </label>
+            <input id="isOn" type="checkbox" style="width: 40px" class="form-control required"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="center">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button id="closeButton" class="closeButton btn">Close</button>
+        </div>
+    </div>
+</form>
+
+<script src="sensors.js"></script>
 
 </body>

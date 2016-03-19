@@ -1,9 +1,7 @@
 var dataAccess = require('./../../server/dataAccess/access');
-var url = require('url');
-//var server = require('./../../server/server');
 var data = {};
 
-var route = function(pathname, id, resCallback) {
+var route = function(pathname, id, resCallback, postData) {
 
     var callback = function(dataItems) {
         data.items = dataItems;
@@ -11,8 +9,6 @@ var route = function(pathname, id, resCallback) {
             resCallback(data);
         }
     };
-
-    //var urlObj = url.parse(urlString);
 
     switch (pathname) {
         case '/':
@@ -33,6 +29,16 @@ var route = function(pathname, id, resCallback) {
             };
             getItems('plantsareas', id);
             break;
+        case '/plantsareas/new':
+            data = {
+                text: 'Plants areas',
+                code: 200,
+                pathname: 'plantsareas',
+                type: 'text/html'
+            };
+            addItem('plantsareas', postData);
+            getItems('plantsareas');
+            break;
         case '/sensors':
             data = {
                 text: 'Sensors',
@@ -42,6 +48,16 @@ var route = function(pathname, id, resCallback) {
             };
             getItems('sensors', id);
             break;
+        case '/sensors/new':
+            data = {
+                text: 'Sensors',
+                code: 200,
+                pathname: 'sensors',
+                type: 'text/html'
+            };
+            addItem('sensors', postData);
+            getItems('sensors');
+            break;
         default:
             data = {
                 text: 'No info',
@@ -50,22 +66,29 @@ var route = function(pathname, id, resCallback) {
             break;
     }
 
+    function addItem(type, postData) {
+        switch (type) {
+            case 'plantsareas':
+                return dataAccess.insertDocuments(1, 'plantsareas', postData);//, callback);
+            case 'sensors':
+                return dataAccess.insertDocuments(1, 'sensors', postData);//, callback);
+        }
+    }
+
     function getItems(type, id) {
         switch (type) {
             case 'plantsareas':
                 if (id) {
-                    return dataAccess.plantsareas(id, callback);
+                    return dataAccess.getPlantsareas(id, callback);
                 }
-                return dataAccess.plantsareas(null, callback);
+                return dataAccess.getPlantsareas(null, callback);
             case 'sensors':
                 if (id) {
-                    return dataAccess.sensors(id, callback); //for  plantsareaId
+                    return dataAccess.getSensors(id, callback); //for  plantsareaId
                 }
-            return dataAccess.sensors(null, callback);
+                return dataAccess.getSensors(null, callback);
         }
     }
-
-    //return data;
 };
 
 module.exports.route = route;
