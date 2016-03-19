@@ -6,9 +6,22 @@ var route = require('./../lib/routing/router');
 var cheerio = require('cheerio');
 var assert = require('assert');
 //var response = {};
-
+var Path = require('path');
+var Inert = require('inert');
 const Hapi = require('hapi');
-const server = new Hapi.Server();
+
+const server = new Hapi.Server({
+    //connections: {
+    //    routes: {
+    //        files: {
+    //            relativeTo: Path.join(__dirname, './../public')
+    //        }
+    //    }
+    //}
+});
+
+server.register(Inert, function () {});
+
 var port = process.argv[2].split('=')[1];
 server.connection({
     port: port || 3000,
@@ -27,7 +40,6 @@ server.connection({
 var dir = "C:/Users/Alex/WebstormProjects/nodeJsSensors";
 
 server.register(require('vision'), (err) => {
-
     server.views({
         engines: {
             html: require('handlebars')
@@ -128,17 +140,17 @@ function accept(req, res) {
     route.route(req.url, createResponse);
 }
 
-//server.route({
-//    method: "GET",
-//    path: "public/{path*}",
-//    handler: {
-//        directory: {
-//            path: "./../public",
-//            listing: false,
-//            index: false
-//        }
-//    }
-//});
+server.route({
+    method: "GET",
+    path: '/{param*}',
+    handler: {
+        directory: {
+            path: Path.join(__dirname, './../public'),
+            redirectToSlash: true,
+            index: true
+        }
+    }
+});
 
 server.route({
     method: 'GET',
