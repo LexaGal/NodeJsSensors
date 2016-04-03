@@ -69,9 +69,9 @@ var route = function(pathname, id, resCallback, postData) {
     function addItem(type, postData) {
         switch (type) {
             case 'plantsareas':
-                return dataAccess.insertDocuments(1, 'plantsareas', postData);//, callback);
+                return dataAccess.insertDocuments(1, 'plantsareas', postData);
             case 'sensors':
-                return dataAccess.insertDocuments(1, 'sensors', postData);//, callback);
+                return dataAccess.insertDocuments(1, 'sensors', postData);
         }
     }
 

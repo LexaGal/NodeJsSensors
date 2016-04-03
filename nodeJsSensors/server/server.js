@@ -37,7 +37,7 @@ server.connection({
 //var url = 'mongodb://localhost:27017/alexmongodb';
 //var getDb = function() { return db;};
 
-var dir = "C:/Users/Alex/WebstormProjects/nodeJsSensors";
+//var dir = "C:/Users/Alex/WebstormProjects/nodeJsSensors";
 
 server.register(require('vision'), (err) => {
     if (err) {
@@ -147,7 +147,11 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        route.route('/', null, function (plantsareas) {
+        route.route('/', null, function (err, plantsareas) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply.view("plantsareas", { plantsareas: plantsareas.items });
         });
     }
@@ -158,7 +162,11 @@ server.route({
     path: '/new/{name}',
     handler: function (request, reply) {
         var name = encodeURIComponent(request.params.name);
-        route.route('/plantsareas/new', null, function (plantsareas) {
+        route.route('/plantsareas/new', null, function (err, plantsareas) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply(plantsareas.items[plantsareas.items.length - 1]);
         }, {name: name, numberOfSensors: 0});
     }
@@ -168,7 +176,11 @@ server.route({
     method: 'GET',
     path: '/plantsareas',
     handler: function (request, reply) {
-        route.route('/plantsareas', null, function (plantsareas) {
+        route.route('/plantsareas', null, function (err, plantsareas) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply.view("plantsareas", { plantsareas: plantsareas.items });
         });
     }
@@ -178,7 +190,11 @@ server.route({
     method: 'GET',
     path: '/plantsareas/{id}',
     handler: function (request, reply) {
-        route.route('/plantsareas', encodeURIComponent(request.params.id), function (plantsareas) {
+        route.route('/plantsareas', encodeURIComponent(request.params.id), function (err, plantsareas) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply.view("plantsareas", { plantsareas: plantsareas.items });
         });
     }
@@ -189,7 +205,11 @@ server.route({
     path: '/plantsareas/new/',
     handler: function (request, reply) {
         var name = encodeURIComponent(request.payload.name);
-        route.route('/plantsareas/new', null, function (plantsareas) {
+        route.route('/plantsareas/new', null, function (err, plantsareas) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply(plantsareas.items[plantsareas.items.length - 1]);
         }, {name: name, numberOfSensors: 0});
     }
@@ -199,7 +219,11 @@ server.route({
     method: 'GET',
     path: '/sensors',
     handler: function (request, reply) {
-        route.route('/sensors', null, function (sensors) {
+        route.route('/sensors', null, function (err, sensors) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply.view("sensors", { sensors: sensors.items });
         });
     }
@@ -209,7 +233,11 @@ server.route({
     method: 'GET',
     path: '/sensors/{plantsareaId}',
     handler: function (request, reply) {
-        route.route('/sensors', encodeURIComponent(request.params.plantsareaId), function (sensors) {
+        route.route('/sensors', encodeURIComponent(request.params.plantsareaId), function (err, sensors) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply.view("sensors", { sensors: sensors.items });
         });
     }
@@ -220,7 +248,11 @@ server.route({
     path: '/sensors/new/',
     handler: function (request, reply) {
         var sensor = JSON.parse(request.payload.sensor);
-        route.route('/sensors/new', null, function (sensors) {
+        route.route('/sensors/new', null, function (err, sensors) {
+            if (err) {
+                console.log(err);
+                reply(err.message);
+            }
             reply(sensors.items[sensors.items.length - 1]);
         }, sensor);
     }
@@ -241,52 +273,9 @@ server.route({
     }
 });
 
-//server.route({
-//    method: "GET",
-//    path: '/{paramJs*}',
-//    handler: {
-//        directory: {
-//            path: Path.join(__dirname, './../client/helpers'),
-//            listing: false,
-//            index: false
-//        }
-//    }
-//});
-
-//??
-server.route({
-    method: "GET",
-    path: '/plantsareas/{param*}',
-    handler: {
-        directory: {
-            path: Path.join(__dirname, './../public'),
-            listing: false,
-            index: false
-        }
-    }
-});
-
-//??
-server.route({
-    method: "GET",
-    path: '/sensors/{param*}',
-    handler: {
-        directory: {
-            path: Path.join(__dirname, './../public'),
-            listing: false,
-            index: false
-        }
-    }
-});
-
-//http.createServer(accept).listen(port);
-//console.log('server is listening ' + port + ' port');
-
 server.start((err) => {
     if (err) {
-        throw err;
+        console.log(err.message);
     }
     console.log('Server is running at: ', server.info.uri);
 });
-
-//module.exports.server = server;
