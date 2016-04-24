@@ -5,11 +5,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-<!--<script id="entry-template" type="text/x-handlebars-template">-->
+<div style="float: right">
+    <h4><i>Logged in user [{{#user}}{{body}}{{/user}}]</i></h4>
+</div>
 <div class="entry title">
     <h1>Sensors</h1>
 </div>
@@ -21,8 +23,8 @@
     {{/each}}
 </div>
 
-<button id="addButton" class="addButton btn btn-primary">Add sensor</button>
-<form id="newSensorForm" style="visibility: visible" class="sensors body bordered form-controls-font">
+<button id="addButton" style="margin-left: 15px" class="addButton btn btn-primary">Add sensor</button>
+<form id="newSensorForm" style="margin-left: 15px; visibility: visible" class="sensors body bordered form-controls-font">
     <div class="form-group">
         <div class="controls">
             <label title="Temperature, humidity, sun/wind level">Measurable type

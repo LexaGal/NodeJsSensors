@@ -3,10 +3,14 @@ var data = {};
 
 var route = function(pathname, id, resCallback, postData) {
 
-    var callback = function(dataItems) {
+    var callback = function(err, dataItems) {
+        if (err) {
+            callback(err);
+            return;
+        }
         data.items = dataItems;
         if (resCallback) {
-            resCallback(data);
+            resCallback(null, data);
         }
     };
 
