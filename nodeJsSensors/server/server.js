@@ -2,6 +2,7 @@
 
 //requirements
 var User = {};
+var dataAccess = require('./dataAccess/access');
 var auth = require('./auth');
 var router = require('./../lib/routing/router');
 const crypto = require('crypto');
@@ -16,7 +17,6 @@ const Handlebars = require('handlebars');
 Handlebars.registerHelper('user', function(options) {
     return User;
 });
-
 
 //Hapi server
 const server = new Hapi.Server();
@@ -36,7 +36,7 @@ var backend = server.connection({
 
 //for cookies
 server.state('data', {
-    ttl: 60 * 1000,
+    ttl: 60 * 1000 * 5,
     isSecure: false,
     isHttpOnly: true,
     encoding: 'base64json',
@@ -46,37 +46,44 @@ server.state('data', {
 //
 
 //users
-const users = {
-    john: {
-        username: 'john',
-        password: crypto.createHash('md5').update('johnSecret').digest("hex"),
-        name: 'John Doe',
-        id: '2133d32a'
-    },
-    mike: {
-        username: 'mike',
-        password: crypto.createHash('md5').update('mikeSecret').digest("hex"),
-        name: 'Mike Vipor',
-        id: '2133d32b'
-    }
-};
+//const users = [
+//    {
+//        username: 'john',
+//        password: crypto.createHash('md5').update('johnSecret').digest("hex"),
+//        name: 'John Doe',
+//        id: '2133d32a'
+//    },
+//    {
+//        username: 'mike',
+//        password: crypto.createHash('md5').update('mikeSecret').digest("hex"),
+//        name: 'Mike Vipor',
+//        id: '2133d32b'
+//    },
+//    {
+//        username: 'bob',
+//        password: crypto.createHash('md5').update('bobSecret').digest("hex"),
+//        name: 'Bob Xoper',
+//        id: '2133d32c'
+//    }
+//];
 //
 
 //auth. validation users
 const validate = function (request, username, password, callback) {
-    const user = users[username];
-    if (!user) {
-        return callback(null, false);
-    }
-
-    var hash = crypto.createHash('md5').update(password).digest("hex");
-    if (user.password === hash) {
-        callback(null, true, {
-            id: user.id, name: user.name
-        });
-    } else {
-        callback(new Error('Wrong password'), false);
-    }
+    const user = dataAccess.getUsers(username, function (err, users) {
+        var user = users[0];
+        if (!user) {
+            return callback(null, false);
+        }
+        var hash = crypto.createHash('md5').update(password).digest("hex");
+        if (user.password === hash) {
+            callback(null, true, {
+                id: user.id, name: user.name
+            });
+        } else {
+            callback(new Error('Wrong password'), false);
+        }
+    });
 };
 
 frontend.register(hapiAuthBasic, (err) => {
@@ -124,6 +131,9 @@ backend.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
+        //    dataAccess.insertDocuments(3, "users", users, function(err, res){
+        //    var r = res;
+        //});
         User = auth.authUser(request, reply, frontend.info.uri);
         if (!User) {
             return;
@@ -294,11 +304,34 @@ backend.route({
 //
 
 //socket for main server
-var io = require('socket.io')(server.select('backend').listener);
-io.on('connection', function (socket) {
-    console.log('A user connected');
-    socket.on('disconnect', function () {
-        console.log('A user disconnected');
+var socket = require('socket.io')(server.select('backend').listener);
+var people = {};
+socket.on("connection", function (client) {
+    var exists = false;
+    client.on("join", function(name){
+        _.forEach(people, function(p) {
+            if (p == name) {
+                client.emit("update", true, "Such name is already taken.");
+                exists = true;
+            }
+        });
+        if (exists) {
+            return;
+        }
+        people[client.id] = name;
+        client.emit("update", false, "You have just connected to the server.");
+        socket.sockets.emit("update", false, name + " has joined the server.");
+        socket.sockets.emit("update-people", people);
+    });
+
+    client.on("send", function(msg){
+        socket.sockets.emit("chat", people[client.id], msg);
+    });
+
+    client.on("disconnect", function(){
+        socket.sockets.emit("update", false, people[client.id] + " has left the server.");
+        delete people[client.id];
+        socket.sockets.emit("update-people", people);
     });
 });
 //

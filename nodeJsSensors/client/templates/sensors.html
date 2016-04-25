@@ -5,55 +5,88 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/sensors.js"></script>
+    <script src="/socketio.js"></script>
+    <!--path relative to public directory-->
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-<div style="float: right">
+
+<div style="margin-right: 30px; float: right">
     <h4><i>Logged in user [{{#user}}{{body}}{{/user}}]</i></h4>
 </div>
-<div class="entry title">
+
+<div style="margin-left: 30px" class="entry title">
     <h1>Sensors</h1>
+    <a href='http://localhost:3001/sensors'>All sensors</a>
 </div>
+
+<div style="margin-right: 30px; float: right">
+    <div class="row">
+        <div class="span2">
+            People: <ul id="people" class="unstyled"></ul>
+        </div>
+        <div class="span4">
+            Messages: <ul id="msgs" class="unstyled">
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5 offset2" id="login">
+            <form class="form-inline">
+                <input type="text" class="input-small" placeholder="Your name" id="name">
+                <input type="button" name="join" id="join" value="Join" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="span5 offset2" id="chat">
+            <form id="2" class="form-inline">
+                <input type="text" class="input" placeholder="Your message" id="msg">
+                <input type="button" name="send" id="send" value="Send" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id="sensors" class="sensors">
     {{#each sensors}}
     <div class="sensor">
         Name: {{this.name}} - Timespan: {{this.timespan}} - Is on: {{this.isOn}}
+        <a href='http://localhost:3001/plantsareas/{{this.plantsareaId}}'>Plantsarea</a>
     </div>
     {{/each}}
 </div>
 
-<button id="addButton" style="margin-left: 15px" class="addButton btn btn-primary">Add sensor</button>
-<form id="newSensorForm" style="margin-left: 15px; visibility: visible" class="sensors body bordered form-controls-font">
-    <div class="form-group">
-        <div class="controls">
-            <label title="Temperature, humidity, sun/wind level">Measurable type
-                <input name="measurableType" value="Type A" type="text" class="form-control required"/>
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="controls">
-            <label title="Hours:Minutes:Seconds">Measuring timeout
-                <input name="measuringTimeout" value="00:00:05" type="time" step="1" class="form-control required"/>
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="controls">
-            <label>Is turned on
-            </label>
-            <input id="isOn" type="checkbox" style="width: 40px" class="form-control required"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="center">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button id="closeButton" class="closeButton btn">Close</button>
-        </div>
-    </div>
-</form>
-
-<script src="sensors.js"></script>
+<!--<button id="addButton" style="margin-left: 15px" class="addButton btn btn-primary">Add sensor</button>-->
+<!--<form id="newSensorForm" style="margin-left: 15px; visibility: visible" class="sensors body bordered form-controls-font">-->
+<!--<div class="form-group">-->
+<!--<div class="controls">-->
+<!--<label title="Temperature, humidity, sun/wind level">Measurable type-->
+<!--<input name="measurableType" value="Type A" type="text" class="form-control required"/>-->
+<!--</label>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<div class="controls">-->
+<!--<label title="Hours:Minutes:Seconds">Measuring timeout-->
+<!--<input name="measuringTimeout" value="00:00:05" type="time" step="1" class="form-control required"/>-->
+<!--</label>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<div class="controls">-->
+<!--<label>Is turned on-->
+<!--</label>-->
+<!--<input id="isOn" type="checkbox" style="width: 40px" class="form-control required"/>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<div class="center">-->
+<!--<button type="submit" class="btn btn-primary">Save</button>-->
+<!--<button id="closeButton" class="closeButton btn">Close</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
 
 </body>

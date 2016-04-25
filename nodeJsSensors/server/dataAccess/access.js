@@ -66,6 +66,27 @@ var getDocuments = function (collection, selectors, callback) {
     }
 };
 
+var getUsers = function(username, callback) {
+
+    getDocuments('users', {}, function (err, items) {
+        if (callback) {
+            if (err) {
+                callback(err);
+            } else if (username) {
+                var list = [];
+                for (var key in items) {
+                    if (items[key].username == username) {
+                        list.push(items[key]);
+                        callback(null, list);
+                    }
+                }
+            } else {
+                callback(null, items);
+            }
+        }
+    });
+};
+
 var getPlantsareas = function (id, callback) {
 
     getDocuments('plantsareas', {}, function (err, items) {
@@ -110,4 +131,5 @@ var getSensors = function (plantsareaId, callback) {
 };
 module.exports.getPlantsareas = getPlantsareas;
 module.exports.getSensors = getSensors;
+module.exports.getUsers = getUsers;
 module.exports.insertDocuments = insertDocuments;

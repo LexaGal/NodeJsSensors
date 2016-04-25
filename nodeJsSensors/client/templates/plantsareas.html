@@ -5,43 +5,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!--path relative to public dirertory-->
-    <link rel="stylesheet" type="text/css" href="/style.css">
-
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-    </script>
+    <script src="/sensors.js"></script>
+    <script src="/socketio.js"></script>
+    <!--path relative to public directory-->
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-<div style="float: right">
+
+<div style="margin-right: 30px; float: right">
     <h4><i>Logged in user: [{{#user}}{{body}}{{/user}}]</i></h4>
 </div>
-<div class="entry title">
+
+<div style="margin-left: 30px" class="entry title">
     <h1>Plantsareas</h1>
+    <a href='http://localhost:3001/plantsareas'>All plantsareas</a>
 </div>
+
+<div style="margin-right: 30px; float: right">
+    <div class="row">
+        <div class="span2">
+            People:
+            <ul id="people" class="unstyled"></ul>
+        </div>
+        <div class="span4">
+            Messages:
+            <ul id="msgs" class="unstyled">
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5 offset2" id="login">
+            <form class="form-inline">
+                <input type="text" class="input-small" placeholder="Your name" id="name">
+                <input type="button" name="join" id="join" value="Join" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="span5 offset2" id="chat">
+            <form id="2" class="form-inline">
+                <input type="text" class="input" placeholder="Your message" id="msg">
+                <input type="button" name="send" id="send" value="Send" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id="plantsareas" class="plantsareas">
     {{#each plantsareas}}
     <div id="{{this._id}}" class="plantsarea">
         Name: {{this.name}} - Sensors: {{this.numberOfSensors}}
+        <a href='http://localhost:3001/sensors/{{this._id}}'>Sensors</a>
     </div>
     {{/each}}
 </div>
 
-<form id="newPlantsareaItemForm" style="margin-left: 15px" class="form-controls-font">
-    <div class="form-group">
-        <div class="controls">
-            <label class="control-label">
-                <input name="name_plantsareaItem" type="text" class="form-control required"
-                       placeholder="Plantsarea name"/>
-            </label>
-            <div>
-                <button id="submitNewPlantsareaItem" type="submit" class="btn btn-primary">Add</button>
-            </div>
-        </div>
-    </div>
-</form>
-
-<script src="plantsareas.js"></script>
+<!--<form id="newPlantsareaItemForm" style="margin-left: 15px" class="form-controls-font">-->
+<!--<div class="form-group">-->
+<!--<div class="controls">-->
+<!--<label class="control-label">-->
+<!--<input name="name_plantsareaItem" type="text" class="form-control required"-->
+<!--placeholder="Plantsarea name"/>-->
+<!--</label>-->
+<!--<div>-->
+<!--<button id="submitNewPlantsareaItem" type="submit" class="btn btn-primary">Add</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
 
 </body>
