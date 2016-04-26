@@ -2,14 +2,20 @@
 <html>
 <head>
     <meta http-equiv="CONTENT-TYPE" content="text/html" charset="utf-8">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://rawgit.com/Olical/EventEmitter/master/EventEmitter.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/sensors.js"></script>
     <script src="/socketio.js"></script>
+    <script src="/react.js"></script>
+    <script src="/react-dom.js"></script>
+    <script type="text/babel" src="/reactComponents.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <!--path relative to public directory-->
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -57,6 +63,10 @@
         <a href='http://localhost:3001/sensors/{{this._id}}'>Sensors</a>
     </div>
     {{/each}}
+</div>
+
+<h3 style="margin-left: 50px">React component example</h3>
+<div id="root" style="margin-left: 50px">
 </div>
 
 <!--<form id="newPlantsareaItemForm" style="margin-left: 15px" class="form-controls-font">-->

@@ -70,7 +70,7 @@ server.state('data', {
 
 //auth. validation users
 const validate = function (request, username, password, callback) {
-    const user = dataAccess.getUsers(username, function (err, users) {
+    dataAccess.getUsers(username, function (err, users) {
         var user = users[0];
         if (!user) {
             return callback(null, false);
@@ -131,7 +131,7 @@ backend.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        //    dataAccess.insertDocuments(3, "users", users, function(err, res){
+        //dataAccess.insertDocuments(3, "messages", messages, function(err, res){
         //    var r = res;
         //});
         User = auth.authUser(request, reply, frontend.info.uri);
@@ -149,25 +149,19 @@ backend.route({
     }
 });
 
-//backend.route({
-//    method: 'POST',
-//    path: '/new/{name}',
-//    handler: function (request, reply) {
-//        User = auth.authUser(request, reply, frontend.info.uri);
-//        if (!User) {
-//            return;
-//        }
-//        var name = encodeURIComponent(request.params.name);
-//        router.route('/plantsareas/new', null, function (err, plantsareas) {
-//            if (err) {
-//                console.log(err);
-//                reply(err.message);
-//                reply.end();
-//            }
-//            reply(plantsareas.items[plantsareas.items.length - 1]);
-//        }, {name: name, numberOfSensors: 0});
-//    }
-//});
+backend.route({
+    method: 'GET',
+    path: '/messages',
+    handler: function (request, reply) {
+        User = auth.authUser(request, reply, frontend.info.uri);
+        if (!User) {
+            return;
+        }
+        dataAccess.getMessages(null, function (err, messages) {
+            reply({messages: messages}).code(200);
+        });
+    }
+});
 
 backend.route({
     method: 'GET',
@@ -294,7 +288,8 @@ backend.route({
         directory: {
             path: [
                 path.join(__dirname, './../public/css'),
-                path.join(__dirname, './../client/helpers')
+                path.join(__dirname, './../client/helpers'),
+                path.join(__dirname, './../client/sources')
             ],
             listing: false,
             index: false

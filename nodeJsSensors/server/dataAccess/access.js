@@ -14,7 +14,6 @@ db.open(function (err, db) {
     mongodb = db;
 });
 
-
 var insertDocuments = function (number, collection, docs, callback) {
     if (mongodb.serverConfig.isConnected()) {
         collection = mongodb.collection(collection);
@@ -66,6 +65,27 @@ var getDocuments = function (collection, selectors, callback) {
     }
 };
 
+var getMessages = function(id, callback) {
+
+    getDocuments('messages', {}, function (err, items) {
+        if (callback) {
+            if (err) {
+                callback(err);
+            } else if (id) {
+                var list = [];
+                for (var key in items) {
+                    if (items[key]._id == id) {
+                        list.push(items[key]);
+                        callback(null, list);
+                    }
+                }
+            } else {
+                callback(null, items);
+            }
+        }
+    });
+};
+
 var getUsers = function(username, callback) {
 
     getDocuments('users', {}, function (err, items) {
@@ -108,7 +128,6 @@ var getPlantsareas = function (id, callback) {
     });
 };
 
-
 var getSensors = function (plantsareaId, callback) {
 
     getDocuments('sensors', {}, function (err, items) {
@@ -129,7 +148,9 @@ var getSensors = function (plantsareaId, callback) {
         }
     });
 };
+
 module.exports.getPlantsareas = getPlantsareas;
 module.exports.getSensors = getSensors;
 module.exports.getUsers = getUsers;
+module.exports.getMessages = getMessages;
 module.exports.insertDocuments = insertDocuments;
